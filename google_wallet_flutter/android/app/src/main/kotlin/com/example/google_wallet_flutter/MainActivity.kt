@@ -79,7 +79,7 @@ class MainActivity : FlutterActivity() {
 
     private fun requestSavePass() {
         // todo Disables the button to prevent multiple clicks.
-        viewModel.savePasses(newObjectJson, this, addToGoogleWalletRequestCode)
+        viewModel.savePassesJwt(viewModel.genericObjectJwt, this, addToGoogleWalletRequestCode)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -115,10 +115,12 @@ class MainActivity : FlutterActivity() {
     }
 
 
+    // gym owener details
     private val issuerEmail = "jishan010@gmail.com"
     private val issuerId = "3388000000022161310"
     private val passClass = "3388000000022161310.dfa2fd81-270b-4860-aec7-7fe1f8f89862"
-    private val passId = UUID.randomUUID().toString()
+
+    private val passId = UUID.randomUUID().toString() //end user pass ID
 
     private val newObjectJson = """
     {
@@ -131,7 +133,7 @@ class MainActivity : FlutterActivity() {
         "genericObjects": [
           {
             "id": "3388000000022161310.6bc0b3f4-4ae1-4fb0-b254-787dc374d0ee",
-            "classId": "3388000000022161310.dfa2fd81-270b-4860-aec7-7fe1f8f89862",
+            "classId": "$passClass",
             "genericType": "GENERIC_TYPE_UNSPECIFIED",
             "hexBackgroundColor": "#60f442",
             "logo": {
