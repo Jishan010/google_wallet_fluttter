@@ -16,15 +16,20 @@
 
 package com.example.google_wallet_flutter.utils
 
+import android.app.Activity
 import android.content.Context
 import com.example.google_wallet_flutter.Constants
 import com.google.android.gms.wallet.PaymentsClient
 import com.google.android.gms.wallet.Wallet
+import com.google.android.gms.wallet.Wallet.WalletOptions
+import com.google.android.gms.wallet.WalletConstants
+import com.google.android.gms.wallet.WalletObjectsClient
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import java.math.BigDecimal
 import java.math.RoundingMode
+
 
 /**
  * Contains helper static methods for dealing with the Payments API.
@@ -160,7 +165,7 @@ object PaymentsUtil {
      * See [MerchantInfo](https://developers.google.com/pay/api/android/reference/object.MerchantInfo)
      */
     private val merchantInfo: JSONObject =
-            JSONObject().put("merchantName", "Example Merchant")
+        JSONObject().put("merchantName", "Example Merchant")
 
     /**
      * Creates an instance of [PaymentsClient] for use in an [Context] using the
@@ -201,19 +206,19 @@ object PaymentsUtil {
      */
     fun getPaymentDataRequest(priceCemts: Long): JSONObject {
         return baseRequest.apply {
-                put("allowedPaymentMethods", JSONArray().put(cardPaymentMethod()))
-                put("transactionInfo", getTransactionInfo(priceCemts.centsToString()))
-                put("merchantInfo", merchantInfo)
+            put("allowedPaymentMethods", JSONArray().put(cardPaymentMethod()))
+            put("transactionInfo", getTransactionInfo(priceCemts.centsToString()))
+            put("merchantInfo", merchantInfo)
 
-                // An optional shipping address requirement is a top-level property of the
-                // PaymentDataRequest JSON object.
-                val shippingAddressParameters = JSONObject().apply {
-                    put("phoneNumberRequired", false)
-                    put("allowedCountryCodes", JSONArray(listOf("US", "GB")))
-                }
-                put("shippingAddressParameters", shippingAddressParameters)
-                put("shippingAddressRequired", true)
+            // An optional shipping address requirement is a top-level property of the
+            // PaymentDataRequest JSON object.
+            val shippingAddressParameters = JSONObject().apply {
+                put("phoneNumberRequired", false)
+                put("allowedCountryCodes", JSONArray(listOf("US", "GB")))
             }
+            put("shippingAddressParameters", shippingAddressParameters)
+            put("shippingAddressRequired", true)
+        }
     }
 }
 
@@ -221,6 +226,6 @@ object PaymentsUtil {
  * Converts cents to a string format accepted by [PaymentsUtil.getPaymentDataRequest].
  */
 fun Long.centsToString() = BigDecimal(this)
-        .divide(PaymentsUtil.CENTS)
-        .setScale(2, RoundingMode.HALF_EVEN)
-        .toString()
+    .divide(PaymentsUtil.CENTS)
+    .setScale(2, RoundingMode.HALF_EVEN)
+    .toString()

@@ -15,23 +15,19 @@ import androidx.activity.viewModels
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.pay.PayClient
 import java.util.*
+import kotlin.random.Random.Default.nextInt
 
 class MainActivity : FlutterActivity() {
 
     private val CHANNEL = "com.example.google_wallet_flutter/google_wallet"
     private lateinit var channel: MethodChannel
-
-
     private val addToGoogleWalletRequestCode = 1000
-
     private val viewModel: CheckoutViewModel by lazy(
         LazyThreadSafetyMode.NONE
     ) {
         CheckoutViewModel(application)
     }
-
     private lateinit var addToGoogleWalletButton: View
-
     private var message: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
@@ -40,7 +36,6 @@ class MainActivity : FlutterActivity() {
            //todo enable disable can save passes button
         })
     }
-
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         GeneratedPluginRegistrant.registerWith(flutterEngine)
@@ -109,7 +104,6 @@ class MainActivity : FlutterActivity() {
                             " exception when trying to deliver the task result to an activity!"
                 )
             }
-
             //todo Re-enables the Google Pay payment button.
         }
     }
@@ -117,10 +111,9 @@ class MainActivity : FlutterActivity() {
 
     // gym owener details
     private val issuerEmail = "jishan010@gmail.com"
-    private val issuerId = "3388000000022161310"
-    private val passClass = "3388000000022161310.dfa2fd81-270b-4860-aec7-7fe1f8f89862"
-
-    private val passId = UUID.randomUUID().toString() //end user pass ID
+    private val issuerId = "3388000000022182063"
+    private val passClass = "f2c2e4b7-805d-4616-90f7-d81a0e464d20"
+    private val passId = UUID.randomUUID().toString()
 
     private val newObjectJson = """
     {
@@ -132,10 +125,10 @@ class MainActivity : FlutterActivity() {
       "payload": {
         "genericObjects": [
           {
-            "id": "3388000000022161310.6bc0b3f4-4ae1-4fb0-b254-787dc374d0ee",
+            "id": "$issuerId.$passId",
             "classId": "$passClass",
             "genericType": "GENERIC_TYPE_UNSPECIFIED",
-            "hexBackgroundColor": "#60f442",
+            "hexBackgroundColor": "#4285f4",
             "logo": {
               "sourceUri": {
                 "uri": "https://storage.googleapis.com/wallet-lab-tools-codelab-artifacts-public/pass_google_logo.jpg"
@@ -144,7 +137,7 @@ class MainActivity : FlutterActivity() {
             "cardTitle": {
               "defaultValue": {
                 "language": "en",
-                "value": "Default Card Test"
+                "value": "Google I/O '22  [DEMO ONLY]"
               }
             },
             "subheader": {
@@ -161,11 +154,11 @@ class MainActivity : FlutterActivity() {
             },
             "barcode": {
               "type": "QR_CODE",
-              "value": "6bc0b3f4-4ae1-4fb0-b254-787dc374d0ee"
+              "value": "$passId"
             },
             "heroImage": {
               "sourceUri": {
-                "uri": "https://codeskulptor-demos.commondatastorage.googleapis.com/GalaxyInvaders/back05.jpg"
+                "uri": "https://storage.googleapis.com/wallet-lab-tools-codelab-artifacts-public/google-io-hero-demo-only.jpg"
               }
             },
             "textModulesData": [
@@ -184,5 +177,5 @@ class MainActivity : FlutterActivity() {
         ]
       }
     }
-     """
+    """
 }
